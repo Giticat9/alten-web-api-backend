@@ -1,0 +1,13 @@
+# GET http://localhost:5067/api/users HTTP/1.1
+
+POST http://localhost:5067/api/users/addOrUpdate HTTP/1.1
+content-type: application/json
+
+{
+    "lastName": "Zhuravlev",
+    "firstName": "Ivan",
+    "middleName": null,
+    "email": null,
+    "login": "default",
+    "password": "default"
+}
