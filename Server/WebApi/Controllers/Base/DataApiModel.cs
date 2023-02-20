@@ -1,5 +1,4 @@
 using System.Net;
-using WebApi.Base.Exception;
 
 namespace WebApi.Base;
 

@@ -30,7 +30,6 @@ BEGIN
             ,u.[middlename]
             ,u.[email]
             ,u.[login]
-            ,u.[password]
         FROM [dbo].[users] u
         WHERE u.[id] = @id
             OR u.[guid] = @guid

@@ -52,6 +52,7 @@ builder.Services
 builder.Services
     .AddTransient<IUserModel, UserModel>()
     .AddTransient<IUserResponse, UserResponse>()
+    .AddTransient<IUserSearchModel, UserSearchModel>()
     .AddTransient<ISectionModel, SectionModel>();
 
 var application = builder.Build();

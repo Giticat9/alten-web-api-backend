@@ -61,7 +61,7 @@ public class UsersRepository : IUsersRepository
         }
     }
 
-    public async Task<UserResponse?> GetUserByIdAsync(long id)
+    public async Task<UserResponse?> GetUserBySearchAsync(UserSearchModel model)
     {
         try 
         {
@@ -69,8 +69,11 @@ public class UsersRepository : IUsersRepository
             using (var command = connection.CreateCommand())
             {
                 command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "[dbo].[spUsersGetById]";
-                command.Parameters.Add(new SqlParameter("@id", id));
+                command.CommandText = "[dbo].[spUsersGetBySearch]";
+                command.Parameters.AddWithValue("@id", model.Id.HasValue ? model.Id.Value : DBNull.Value);
+                command.Parameters.AddWithValue("@guid", model.Guid.HasValue ? model.Guid.Value : DBNull.Value);
+                command.Parameters.AddWithValue("@login", model.Login != null ? model.Login : DBNull.Value);
+                command.Parameters.AddWithValue("@email", model.Email != null ? model.Email : DBNull.Value);
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {

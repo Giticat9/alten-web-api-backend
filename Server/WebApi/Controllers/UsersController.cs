@@ -4,50 +4,53 @@ using WebApi.Base;
 using WebApi.BE;
 using WebApi.BL;
 
-namespace WebApi.Controllers;
-
-[ApiController]
-[Route("api/users")]
-public class UsersController : ControllerBase
+namespace WebApi.Controllers
 {
-    private readonly IUsersBL _usersBL;
-    
-    public UsersController(IUsersBL usersBL)
+    [ApiController]
+    [Route("api/users")]
+    public class UsersController : ControllerBase
     {
-        _usersBL = usersBL;
-    }
-
-    [HttpGet("")]
-    public async Task<DataApiModel<List<UserResponse>>> Get([FromQuery] string? search) 
-    {
-        var users = await _usersBL.GetAllAsync(search);
+        private readonly IUsersBL _usersBL;
         
-        return DataApiModel.Ok(users);
-    }
+        public UsersController(IUsersBL usersBL)
+        {
+            _usersBL = usersBL;
+        } 
 
-    [HttpGet("{id}")]
-    public async Task<UserResponse?> GetById(long id)
-    {
-        var user = await _usersBL.GetByIdAsync(id);
+        [Authorize]
+        [HttpGet("")]
+        public async Task<DataApiModel<List<UserResponse>>> Get([FromQuery] string? search) 
+        {
+            var users = await _usersBL.GetAllAsync(search);
 
-        return user;
-    }
+            return DataApiModel.Ok<List<UserResponse>>(users);
+        }
 
-    [Authorize]
-    [HttpPost("addOrUpdate")]
-    public async Task<Guid> AddOrUpdate([FromBody] UserModel model, [FromQuery] long? id = null)
-    {
-        var userGuid = await _usersBL.AddOrUpdateAsync(model, id);
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<DataApiModel<UserResponse>> GetById(long id)
+        {
+            var user = await _usersBL.GetByIdAsync(id);
 
-        return userGuid;
-    }
+            return DataApiModel.Ok<UserResponse>(user ?? new UserResponse());
+        }
 
-    [Authorize]
-    [HttpDelete("delete")]
-    public async Task<long> DeleteById([FromQuery] long id)
-    {
-        var userId = await _usersBL.DeleteAsync(id);
+        [Authorize]
+        [HttpPost("addOrUpdate")]
+        public async Task<DataApiModel<Guid>> AddOrUpdate([FromBody] UserModel model, [FromQuery] long? id = null)
+        {
+            var userGuid = await _usersBL.AddOrUpdateAsync(model, id);
 
-        return userId;
+            return DataApiModel.Ok<Guid>(userGuid);
+        }
+
+        [Authorize]
+        [HttpDelete("delete")]
+        public async Task<DataApiModel<long>> DeleteById([FromQuery] long id)
+        {
+            var userId = await _usersBL.DeleteAsync(id);
+
+            return DataApiModel.Ok<long>(userId);
+        }
     }
 }

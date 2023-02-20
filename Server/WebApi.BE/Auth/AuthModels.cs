@@ -5,7 +5,7 @@ namespace WebApi.BE;
 ///<summary>
 /// Модель запроса на авторизацию пользователя
 ///</summary>
-public class AuthLoginRequestModel : IValidatableObject
+public class AuthLoginRequestModel
 {
     [Required(ErrorMessage = "Логин обязателен для заполнения")]
     [DataType(DataType.Text)]
@@ -14,11 +14,6 @@ public class AuthLoginRequestModel : IValidatableObject
     [Required(ErrorMessage = "Пароль обязателен для заполнения")]
     [DataType(DataType.Password)]
     public string Password { get; set; } = "";
-
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
-        throw new NotImplementedException();
-    }
 }
 
 /// <summary>

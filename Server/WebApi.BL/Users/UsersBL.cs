@@ -27,11 +27,11 @@ public class UsersBL : IUsersBL
         }
     }
 
-    public async Task<UserResponse?> GetByIdAsync(long id)
+    public async Task<UserResponse?> GetUserBySearchAsync(UserSearchModel model)
     {
         try 
         {
-            return await _usersRepository.GetUserByIdAsync(id);
+            return await _usersRepository.GetUserBySearchAsync(model);
         }
         catch
         {

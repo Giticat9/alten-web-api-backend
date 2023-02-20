@@ -1,6 +1,4 @@
-namespace WebApi.Base;
-
-public class RequestStatusModel: DataApiModel<StatusCodeModel>
+namespace WebApi.Base
 {
-    
+    public class RequestStatusModel : DataApiModel<StatusCodeModel> {};
 }
