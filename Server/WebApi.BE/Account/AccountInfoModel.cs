@@ -5,13 +5,13 @@
     /// </summary>
     public class AccountInfoModel
     {
-        public Guid Guid { get; set; } = Guid.Empty;
+        public Guid? Guid { get; set; } = null;
         public string Login { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public string MiddleName { get; set; } = string.Empty;
-        public string Position { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
+        public string? MiddleName { get; set; } = null;
+        public string? Position { get; set; } = null;
+        public string? Email { get; set; } = null;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public List<AccountInfoSectionAccessModel> SectionAccessList { get; set; } = new List<AccountInfoSectionAccessModel>();
         public AccountInfoPermissionsModel Permissions { get; set; } = new AccountInfoPermissionsModel();
