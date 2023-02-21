@@ -40,19 +40,16 @@ builder.Services
 
 builder.Services
     .AddSingleton<IConfigManager, ConfigManager>()
-    .AddSingleton<IUsersBL, UsersBL>()
-    .AddSingleton<IUsersRepository, UsersRepository>()
     .AddSingleton<IWebApiDatabase, WebApiDatabase>()
-    .AddSingleton<IUsersMappers, UsersMappers>()
     .AddSingleton<IDataBaseHelpers, DataBaseHelpers>()
+    .AddSingleton<IAccountsBL, AccountsBL>()
+    .AddSingleton<IAccountsRepository, AccountsRepository>()
+    .AddSingleton<IAccountsMapper, AccountsMapper>()
     .AddSingleton<ISectionBL, SectionBL>()
     .AddSingleton<ISectionsRepository, SectionRepository>()
     .AddSingleton<ISectionMapper, SectionMapper>();
 
 builder.Services
-    .AddTransient<IUserModel, UserModel>()
-    .AddTransient<IUserResponse, UserResponse>()
-    .AddTransient<IUserSearchModel, UserSearchModel>()
     .AddTransient<ISectionModel, SectionModel>();
 
 var application = builder.Build();

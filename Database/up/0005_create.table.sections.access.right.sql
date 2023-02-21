@@ -1,0 +1,17 @@
+﻿BEGIN TRAN
+
+GO
+
+IF NOT EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[TABLES] WHERE [TABLE_NAME] = 'sections_access_right')
+BEGIN
+	CREATE TABLE [dbo].[sections_access_right]
+	(
+		[id] BIGINT PRIMARY KEY IDENTITY(1,1),
+		[account_guid] UNIQUEIDENTIFIER NOT NULL,
+		[section_guid] UNIQUEIDENTIFIER NOT NULL
+	)
+END
+
+GO 
+
+COMMIT TRAN

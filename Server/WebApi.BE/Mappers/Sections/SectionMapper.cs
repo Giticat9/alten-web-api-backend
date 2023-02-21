@@ -10,7 +10,7 @@ public class SectionMapper : ISectionMapper
         return new SectionModel
         {
             Id = (int)reader.GetValue("id"),
-            Guid = (Guid)reader.GetGuid("guid"),
+            Guid = reader.GetGuid("guid"),
             Name = (string)reader.GetValue("name"),
             Description = (string)reader.GetValue("description")
         };
