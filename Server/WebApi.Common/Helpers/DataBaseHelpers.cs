@@ -7,7 +7,7 @@ public class DataBaseHelpers : IDataBaseHelpers
 {
     public DataTable ConvertModelToDataTable<T>(T model) where T : class
     {
-        DataTable convertedTable = new DataTable();
+        DataTable convertedTable = new();
         PropertyInfo[] propertiesInfo = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (var property in propertiesInfo)
@@ -16,7 +16,6 @@ public class DataBaseHelpers : IDataBaseHelpers
         }
 
         var row = convertedTable.NewRow();
-        var values = new object[propertiesInfo.Length];
 
         for (int i = 0; i < propertiesInfo.Length; i++) 
         {
