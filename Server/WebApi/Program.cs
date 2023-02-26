@@ -41,7 +41,6 @@ builder.Services
 builder.Services
     .AddSingleton<IConfigManager, ConfigManager>()
     .AddSingleton<IWebApiDatabase, WebApiDatabase>()
-    .AddSingleton<IDataBaseHelpers, DataBaseHelpers>()
     .AddSingleton<IAccountsBL, AccountsBL>()
     .AddSingleton<IAccountsRepository, AccountsRepository>()
     .AddSingleton<IAccountsMapper, AccountsMapper>()

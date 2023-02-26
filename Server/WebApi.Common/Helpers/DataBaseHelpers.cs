@@ -3,9 +3,9 @@ using System.Reflection;
 
 namespace WebApi.Common.Helpers;
 
-public class DataBaseHelpers : IDataBaseHelpers
+public static class DataBaseHelpers
 {
-    public DataTable ConvertModelToDataTable<T>(T model) where T : class
+    public static DataTable ConvertModelToDataTable<T>(T model) where T : class
     {
         DataTable convertedTable = new();
         PropertyInfo[] propertiesInfo = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -23,6 +23,19 @@ public class DataBaseHelpers : IDataBaseHelpers
         }
 
         convertedTable.Rows.Add(row);
+
+        return convertedTable;
+    }
+
+    public static DataTable ConvertArrayToDataTable<T>(IEnumerable<T> model)
+    {
+        DataTable convertedTable = new();
+        convertedTable.Columns.Add("value");
+
+        foreach (var item in model)
+        {
+            convertedTable.Rows.Add(item);
+        }
 
         return convertedTable;
     }

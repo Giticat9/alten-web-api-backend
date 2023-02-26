@@ -25,5 +25,10 @@ namespace WebApi.Base
         /// или изменение существующих учетных записец
         /// </summary>
         NoAccountsWithRights = 4,
+
+        /// <summary>
+        /// Пользователь уже существует в системе
+        /// </summary>
+        AcccountIsExists = 5,
     }
 }

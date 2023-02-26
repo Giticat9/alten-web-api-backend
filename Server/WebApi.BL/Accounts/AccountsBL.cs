@@ -36,6 +36,18 @@ namespace WebApi.BL
             }
         }
 
+        public async Task<bool> AddOrUpdate(AccountInfoRequestModel model)
+        {
+            try
+            {
+                return await _accountsRepository.AddOrUpdate(model);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<Guid> DeleteByGuid(Guid guid)
         {
             try
@@ -54,6 +66,18 @@ namespace WebApi.BL
             {
                 return await _accountsRepository.GetAccountsCountAll();
             }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> CheckAccountExists(string? login, string? email)
+        {
+            try
+            {
+                return await _accountsRepository.CheckAccountExists(login, email);
+            } 
             catch
             {
                 throw;

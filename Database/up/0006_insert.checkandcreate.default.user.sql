@@ -18,7 +18,7 @@ BEGIN
 	FROM [dbo].[users] u 
 	WHERE u.[id] = @@IDENTITY
 
-	--	Добавление информации об super пользователе
+	--	Добавление информации о super пользователе
 	INSERT INTO [dbo].[account_data] ([first_name], [last_name], [permission], [user_external_guid])
 	VALUES (
 		'admin',
@@ -32,7 +32,7 @@ BEGIN
 	FROM [dbo].[account_data] ad 
 	WHERE ad.[id] = @@IDENTITY
 
-	--	Добавление плав доступа для super для пользователя
+	--	Добавление плав доступа для super пользователя
 	INSERT INTO [dbo].[sections_access_right] ([account_guid], [section_guid])
 	SELECT @account_guid,
 		s.[guid]

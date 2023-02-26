@@ -1,7 +1,9 @@
 ﻿using System.Data;
+using System.Data.SqlClient;
 using WebApi.BE.Account;
 using WebApi.BE.Mappers;
 using WebApi.Common;
+using WebApi.Common.Helpers;
 
 namespace WebApi.DAL
 {
@@ -122,6 +124,62 @@ namespace WebApi.DAL
             }
         }
 
+        public async Task<bool> AddOrUpdate(AccountInfoRequestModel model)
+        {
+            try
+            {
+                using var connection = await _webApiDatabase.UseWebApiDatabaseAsync();
+                using var command = connection.CreateCommand();
+
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "[dbo].[spAccountAddOrUpdate]";
+
+                var sqlAccountDataModel = new SQLAccountDataModel
+                {
+                    Guid = model.Guid,
+                    Login = model.Login,
+                    Password = model.Password,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    MiddleName = model.MiddleName,
+                    Position = model.Position,
+                    Email = model.Email,
+                    Permission = model.Permission,
+                };
+
+                var sqlAccountDataTable = DataBaseHelpers.ConvertModelToDataTable(sqlAccountDataModel);
+                var sqlAccountDataParameter = new SqlParameter
+                {
+                    ParameterName = "@account_data",
+                    SqlDbType = SqlDbType.Structured,
+                    TypeName = "[dbo].[AccountModelType]",
+                    Value = sqlAccountDataTable
+                };
+
+                command.Parameters.Add(sqlAccountDataParameter);
+
+                var sqlAccountAccessRightsTable = DataBaseHelpers.ConvertArrayToDataTable(model.SectionAccessList.Select(guid => guid));
+                var sqlAccountAccessRightsParameter = new SqlParameter
+                {
+                    ParameterName = "@account_sections_access",
+                    SqlDbType = SqlDbType.Structured,
+                    TypeName = "[dbo].[ArrayOfGuid]",
+                    Value = sqlAccountAccessRightsTable
+                };
+
+                command.Parameters.Add(sqlAccountAccessRightsParameter);
+
+
+                await command.ExecuteNonQueryAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ошибка добавления новой учетной записи", ex);
+            }
+        }
+
         public async Task<Guid> DeleteByGuid(Guid guid)
         {
             try
@@ -165,6 +223,30 @@ namespace WebApi.DAL
             catch (Exception ex)
             {
                 throw new Exception("Ошибка получения количества учетных записей", ex);
+            }
+        }
+
+        public async Task<bool> CheckAccountExists(string? login, string? email)
+        {
+            try
+            {
+                using var connection = await _webApiDatabase.UseWebApiDatabaseAsync();
+                using var command = connection.CreateCommand();
+
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "[dbo].[spAccountsCheckExists]";
+                command.Parameters.AddRange(new SqlParameter[]
+                {
+                    new SqlParameter("@login", login),
+                    new SqlParameter("@email", email)
+                });
+
+                var result = await command.ExecuteScalarAsync();
+                return result != null && DBNull.Value != result && (bool)result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ошибка при проверки существования учетной записи", ex);
             }
         }
     }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApi.Base;
+using WebApi.BE.Account;
 using WebApi.BL;
 
 namespace WebApi.Controllers
@@ -15,6 +17,7 @@ namespace WebApi.Controllers
             _accountsBL = accountsBL;
         }
 
+        [Authorize]
         [HttpGet("")]
         public async Task<BaseApiModel> GetAll([FromQuery] string term = "")
         {
@@ -23,12 +26,31 @@ namespace WebApi.Controllers
             return DataApiModel.Ok(accounts);
         }
 
+        [Authorize]
         [HttpGet("{guid}")]
         public async Task<BaseApiModel> GetByGuid(Guid guid)
         {
             var account = await _accountsBL.GetByGuid(guid);
 
             return DataApiModel.Ok(account);
+        }
+
+        [HttpPost("AddOrUpdate")]
+        public async Task<BaseApiModel> AddOrUpdate([FromForm] AccountInfoRequestModel model)
+        {
+            var isUserExists = await _accountsBL.CheckAccountExists(model.Login, model.Email);
+
+            if (isUserExists)
+            {
+                return DataApiModel.Error(
+                    "Пользователь с таким логином или эл-почтой уже существует",
+                    ErrorCode.AcccountIsExists
+                );
+            }
+
+            var isUserCreated = await _accountsBL.AddOrUpdate(model);
+
+            return DataApiModel.Ok(isUserCreated);
         }
 
         [HttpDelete("{guid}")]
