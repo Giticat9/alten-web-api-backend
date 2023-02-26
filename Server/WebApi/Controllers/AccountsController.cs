@@ -6,6 +6,7 @@ using WebApi.BL;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/accounts")]
     public class AccountsController : ControllerBase
@@ -35,6 +36,7 @@ namespace WebApi.Controllers
             return DataApiModel.Ok(account);
         }
 
+        [Authorize]
         [HttpPost("AddOrUpdate")]
         public async Task<BaseApiModel> AddOrUpdate([FromForm] AccountInfoRequestModel model)
         {
@@ -53,6 +55,7 @@ namespace WebApi.Controllers
             return DataApiModel.Ok(isUserCreated);
         }
 
+        [Authorize]
         [HttpDelete("{guid}")]
         public async Task<BaseApiModel> DeleteByGuid(Guid guid)
         {

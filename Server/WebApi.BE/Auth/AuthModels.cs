@@ -24,3 +24,14 @@ public class AuthLoginResponseModel
     public string AccessToken { get; set; } = "";
     public string UserName { get; set; } = "";
 }
+
+/// <summary>
+/// Список утверждений для генерации токена на основе данных об учетной записи
+/// </summary>
+public class AuthUserAccountClaimNames
+{
+    public const string UserAccountLogin = "UserAccountLogin";
+    public const string UserAccountEmail = "UserAccountEmail";
+    public const string UserAccountFullName = "UserAccountFullName";
+    public const string UserAccountGuid = "UserAccountGuid";
+}

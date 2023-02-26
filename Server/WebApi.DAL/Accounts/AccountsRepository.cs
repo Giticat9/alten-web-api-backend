@@ -147,7 +147,8 @@ namespace WebApi.DAL
                     Permission = model.Permission,
                 };
 
-                var sqlAccountDataTable = DataBaseHelpers.ConvertModelToDataTable(sqlAccountDataModel);
+                var sqlAccountDataTable 
+                    = DataBaseHelpers.ConvertModelToDataTable(sqlAccountDataModel);
                 var sqlAccountDataParameter = new SqlParameter
                 {
                     ParameterName = "@account_data",
@@ -158,7 +159,8 @@ namespace WebApi.DAL
 
                 command.Parameters.Add(sqlAccountDataParameter);
 
-                var sqlAccountAccessRightsTable = DataBaseHelpers.ConvertArrayToDataTable(model.SectionAccessList.Select(guid => guid));
+                var sqlAccountAccessRightsTable 
+                    = DataBaseHelpers.ConvertArrayToDataTable((model.SectionAccessList ?? new List<Guid>()).Select(guid => guid));
                 var sqlAccountAccessRightsParameter = new SqlParameter
                 {
                     ParameterName = "@account_sections_access",
