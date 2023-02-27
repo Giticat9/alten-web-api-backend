@@ -30,5 +30,10 @@ namespace WebApi.Base
         /// Пользователь уже существует в системе
         /// </summary>
         AcccountIsExists = 5,
+
+        /// <summary>
+        /// Не удалось найти учетную запись по заданым логину и паролю
+        /// </summary>
+        LoginInfoDoesNotExists = 6,
     }
 }

@@ -5,6 +5,7 @@ using WebApi.DAL;
 using WebApi.BE.Mappers;
 using WebApi.Common;
 using WebApi.Common.Jwt;
+using WebApi.DAL.Auth;
 
 var builderOptions = new WebApplicationOptions 
 {
@@ -29,7 +30,10 @@ builder.Services
     .AddSingleton<IAccountsMapper, AccountsMapper>()
     .AddSingleton<ISectionBL, SectionBL>()
     .AddSingleton<ISectionsRepository, SectionRepository>()
-    .AddSingleton<ISectionMapper, SectionMapper>();
+    .AddSingleton<ISectionMapper, SectionMapper>()
+    .AddSingleton<IAuthBL, AuthBL>()
+    .AddSingleton<IAuthRepository, AuthRepository>()
+    .AddSingleton<IAuthMapper, AuthMapper>();
 
 builder.Services
     .AddTransient<ISectionModel, SectionModel>();
