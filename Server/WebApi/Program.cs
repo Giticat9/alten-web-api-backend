@@ -6,6 +6,7 @@ using WebApi.BE.Mappers;
 using WebApi.Common;
 using WebApi.Common.Jwt;
 using WebApi.DAL.Auth;
+using WebApi.Common.Extensions;
 
 var builderOptions = new WebApplicationOptions 
 {
@@ -17,6 +18,7 @@ var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerDocumentation();
 
 builder.Services
     .AddSymmetricJwtAuthentication(configuration)
@@ -40,7 +42,13 @@ builder.Services
 
 var application = builder.Build();
 
-application.UseUrlLogger();
 application.MapControllers();
+
+if (application.Environment.IsDevelopment())
+{
+    application.UseSwaggerDocumentation();
+}
+
+application.UseUrlLogger();
 
 application.Run();

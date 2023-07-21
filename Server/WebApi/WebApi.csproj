@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WebApi.BL\WebApi.BL.csproj" />
     <ProjectReference Include="..\WebApi.Config\WebApi.Config.csproj" />
     <ProjectReference Include="..\WebApi.BE\WebApi.BE.csproj" />

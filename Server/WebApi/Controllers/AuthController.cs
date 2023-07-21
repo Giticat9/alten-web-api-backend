@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApi.Base;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.BE;
 using WebApi.BL;
+using WebApi.Common;
 
 namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/auth")]
+    [SwaggerTag("Работа с авторизацией")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthBL _authBL;
@@ -17,13 +19,18 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<BaseApiModel> Login([FromForm] AuthLoginRequestModel model)
+        [SwaggerOperation(Summary = "Авторизация по логину и паролю")]
+        [SwaggerResponse(StatusCodes.Status200OK, Description = "Успешная авторизация", Type = typeof(AuthLoginResponseModel))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, Description = "Неверные логин или пароль", Type = typeof(HttpErrorDescription))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, Description = "Внутренняя ошибка сервера", Type = typeof(HttpErrorDescription))]
+        public async Task<ActionResult<AuthLoginResponseModel>> Login([FromForm] AuthLoginRequestModel model)
         {
             var loginInfo = await _authBL.GetLoginInfoByLoginPasswordAsync(model.Login, model.Password);
 
             if (!loginInfo.IsSuccess)
             {
-                return DataApiModel.Error("Логин или пароль указаны не верно", ErrorCode.LoginInfoDoesNotExists);
+                throw new HttpException(StatusCodes.Status400BadRequest, 
+                    "Логин или пароль указаны не верно");
             }
 
             var token = await _authBL.GenerateJwtTokenByLoginInfoAsync(loginInfo);
@@ -34,7 +41,7 @@ namespace WebApi.Controllers
                 Email = loginInfo.Email
             };
 
-            return DataApiModel.Ok(response);
+            return response;
         }
     }
 }
