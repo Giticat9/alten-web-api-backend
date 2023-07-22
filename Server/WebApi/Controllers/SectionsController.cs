@@ -9,7 +9,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/sections")]
-    [SwaggerTag("Работа с разделами")]
+    [SwaggerTag("Р Р°Р±РѕС‚Р° СЃ СЂР°Р·РґРµР»Р°РјРё")]
     public class SectionsController : ControllerBase
     {
         private readonly ISectionBL _sectionBL;
@@ -21,10 +21,11 @@ namespace WebApi.Controllers
 
         [Authorize]
         [HttpGet]
-        [SwaggerOperation(Summary = "Получение всех разделов")]
-        [SwaggerResponse(StatusCodes.Status200OK, Description = "Успешное получение разделов")]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, Description = "Необходима авторизация")]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, Description = "Внутренняя ошибка сервера", Type = typeof(HttpErrorDescription))]
+        [Produces(MediaTypes.ApplicationJson)]
+        [SwaggerOperation(Summary = "РџРѕР»СѓС‡РµРЅРёРµ РІСЃРµС… СЂР°Р·РґРµР»РѕРІ")]
+        [SwaggerResponse(StatusCodes.Status200OK, Description = "РЈСЃРїРµС€РЅРѕРµ РїРѕР»СѓС‡РµРЅРёРµ СЂР°Р·РґРµР»РѕРІ")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, Description = "РќРµРѕР±С…РѕРґРёРјР° Р°РІС‚РѕСЂРёР·Р°С†РёСЏ")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, Description = "Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР° СЃРµСЂРІРµСЂР°", Type = typeof(HttpErrorDescription))]
         public async Task<ActionResult<List<SectionModel>>> GetAll()
         {
             var sections = await _sectionBL.GetSectionsAsync();
@@ -34,10 +35,11 @@ namespace WebApi.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        [SwaggerOperation(Summary = "Получение раздела по идентификатору")]
-        [SwaggerResponse(StatusCodes.Status200OK, Description = "Успешное получения раздела")]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, Description = "Необходима авторизация")]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, Description = "Внутренняя ошибка сервера", Type = typeof(HttpErrorDescription))]
+        [Produces(MediaTypes.ApplicationJson)]
+        [SwaggerOperation(Summary = "РџРѕР»СѓС‡РµРЅРёРµ СЂР°Р·РґРµР»Р° РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ")]
+        [SwaggerResponse(StatusCodes.Status200OK, Description = "РЈСЃРїРµС€РЅРѕРµ РїРѕР»СѓС‡РµРЅРёСЏ СЂР°Р·РґРµР»Р°")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, Description = "РќРµРѕР±С…РѕРґРёРјР° Р°РІС‚РѕСЂРёР·Р°С†РёСЏ")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, Description = "Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР° СЃРµСЂРІРµСЂР°", Type = typeof(HttpErrorDescription))]
         public async Task<ActionResult<SectionModel>> GetById(int id)
         {
             var section = await _sectionBL.GetSectionAsync(id);
